@@ -1,4 +1,4 @@
-FROM frolvlad/alpine-glibc:alpine-3.11_glibc-2.31
+FROM frolvlad/alpine-glibc:alpine-3.12_glibc-2.31
 LABEL maintainer="Sergio Moura <sergio@moura.ca>"
 
 RUN mv /usr/glibc-compat/lib/ld-linux-x86-64.so.2 /usr/glibc-compat/lib/ld-linux-x86-64.so \
