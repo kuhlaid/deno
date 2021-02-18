@@ -1,13 +1,8 @@
-FROM frolvlad/alpine-glibc:alpine-3.12_glibc-2.31
-#FROM registry.access.redhat.com/rhscl/s2i-core-rhel7:1
+FROM registry.access.redhat.com/rhscl/s2i-core-rhel7:1
 
 ENV SUMMARY="DenoJs server" \
     DESCRIPTION="DenoJs (a better NodeJs) is a free and open-source \
     javascript runtime. This container image builds a DenoJs server."
-
-# do something similar??
-#RUN mv /usr/glibc-compat/lib/ld-linux-x86-64.so.2 /usr/glibc-compat/lib/ld-linux-x86-64.so \
-#  && ln -s ld-linux-x86-64.so /usr/glibc-compat/lib/ld-linux-x86-64.so.2
     
 LABEL summary="$SUMMARY" \
       description="$DESCRIPTION" \
@@ -20,22 +15,16 @@ LABEL summary="$SUMMARY" \
       version="0.1" \
       com.redhat.license_terms="https://www.redhat.com/en/about/red-hat-end-user-license-agreements#rhel" \
       maintainer="w. Patrick Gale <w.patrick.gale@unc.edu>"
-      
-# trying this with Alpine
-RUN mv /usr/glibc-compat/lib/ld-linux-x86-64.so.2 /usr/glibc-compat/lib/ld-linux-x86-64.so \
-  && ln -s ld-linux-x86-64.so /usr/glibc-compat/lib/ld-linux-x86-64.so.2
 
 ARG DENO_VERSION
 ENV DENO_VERSION ${DENO_VERSION:-v1.7.4}
 
-RUN apk add --virtual .download --no-cache curl \
- && curl -fsSL https://github.com/denoland/deno/releases/download/v${DENO_VERSION}/deno-x86_64-unknown-linux-gnu.zip \
+RUN curl -fsSL https://deno.land/x/install/install.sh | sh \
          --output deno.zip \
  && unzip deno.zip \
  && rm deno.zip \
  && chmod 755 deno \
- && mv deno /bin/deno \
- && apk del .download
+ && mv deno /bin/deno
 
 ENV DENO_DIR /app/
 
