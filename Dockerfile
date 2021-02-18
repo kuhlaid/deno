@@ -1,11 +1,8 @@
-FROM frolvlad/alpine-glibc:alpine-3.12_glibc-2.31
-LABEL maintainer="Sergio Moura <sergio@moura.ca>"
-
-RUN mv /usr/glibc-compat/lib/ld-linux-x86-64.so.2 /usr/glibc-compat/lib/ld-linux-x86-64.so \
-  && ln -s ld-linux-x86-64.so /usr/glibc-compat/lib/ld-linux-x86-64.so.2
+FROM scratch
+LABEL maintainer="w. Patrick Gale <w.patrick.gale@unc.edu>"
 
 ARG DENO_VERSION
-ENV DENO_VERSION ${DENO_VERSION:-v1.0.3}
+ENV DENO_VERSION ${DENO_VERSION:-v1.7.4}
 
 RUN apk add --virtual .download --no-cache curl \
  && curl -fsSL https://github.com/denoland/deno/releases/download/v${DENO_VERSION}/deno-x86_64-unknown-linux-gnu.zip \
