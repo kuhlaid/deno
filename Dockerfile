@@ -1,10 +1,24 @@
-FROM registry.ci.openshift.org/ocp/builder:rhel-8-golang-1.15-openshift-4.8 AS builder
+FROM rhscl/s2i-core-rhel7
+
+ENV SUMMARY="DenoJs server" \
+    DESCRIPTION="DenoJs (a better NodeJs) is a free and open-source \
+    javascript runtime. This container image builds a DenoJs server."
 
 # do something similar??
 #RUN mv /usr/glibc-compat/lib/ld-linux-x86-64.so.2 /usr/glibc-compat/lib/ld-linux-x86-64.so \
 #  && ln -s ld-linux-x86-64.so /usr/glibc-compat/lib/ld-linux-x86-64.so.2
     
-LABEL maintainer="w. Patrick Gale <w.patrick.gale@unc.edu>"
+LABEL summary="$SUMMARY" \
+      description="$DESCRIPTION" \
+      io.k8s.description="$DESCRIPTION" \
+      io.k8s.display-name="DenoJs 1.7.4" \
+      io.openshift.tags="javascript" \
+      com.redhat.component="rh-deno174-container" \
+      name="kuhlaid/openshift-deno" \
+      usage="deno run https://deno.land/std/examples/welcome.ts" \
+      version="0.1" \
+      com.redhat.license_terms="https://www.redhat.com/en/about/red-hat-end-user-license-agreements#rhel" \
+      maintainer="w. Patrick Gale <w.patrick.gale@unc.edu>"
 
 ARG DENO_VERSION
 ENV DENO_VERSION ${DENO_VERSION:-v1.7.4}
