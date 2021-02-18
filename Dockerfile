@@ -1,4 +1,9 @@
-FROM scratch
+FROM registry.ci.openshift.org/ocp/builder:rhel-8-golang-1.15-openshift-4.8 AS builder
+
+# do something similar??
+#RUN mv /usr/glibc-compat/lib/ld-linux-x86-64.so.2 /usr/glibc-compat/lib/ld-linux-x86-64.so \
+#  && ln -s ld-linux-x86-64.so /usr/glibc-compat/lib/ld-linux-x86-64.so.2
+    
 LABEL maintainer="w. Patrick Gale <w.patrick.gale@unc.edu>"
 
 ARG DENO_VERSION
