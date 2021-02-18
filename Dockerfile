@@ -19,22 +19,17 @@ LABEL summary="$SUMMARY" \
 ARG DENO_VERSION
 ENV DENO_VERSION ${DENO_VERSION:-v1.7.4}
 
-RUN curl -fsSL https://deno.land/x/install/install.sh | sh \
-         --output deno.zip \
- && unzip deno.zip \
- && rm deno.zip \
- && chmod 755 deno \
- && mv deno /bin/deno
+RUN curl -fsSL https://deno.land/x/install/install.sh | sh
 
 ENV DENO_DIR /app/
 
-RUN addgroup -g 1993 -S deno \
- && adduser -u 1993 -S deno -G deno \
- && mkdir ${DENO_DIR} \
- && chown deno:deno ${DENO_DIR}
+# RUN addgroup -g 1993 -S deno \
+#  && adduser -u 1993 -S deno -G deno \
+#  && mkdir ${DENO_DIR} \
+#  && chown deno:deno ${DENO_DIR}
 
 
-WORKDIR ${DENO_DIR}
+# WORKDIR ${DENO_DIR}
 
-ENTRYPOINT ["deno"]
-CMD ["run", "https://deno.land/std/examples/welcome.ts"]
+# ENTRYPOINT ["deno"]
+RUN deno run https://deno.land/std/examples/welcome.ts
