@@ -24,4 +24,7 @@ RUN curl -fsSL https://deno.land/x/install/install.sh | sh
 # trying these export statements
 RUN export DENO_INSTALL="/opt/app-root/src/.deno"
 RUN export PATH="$DENO_INSTALL/bin:$PATH"
-RUN deno run https://deno.land/std/examples/welcome.ts
+
+ENTRYPOINT ["deno"]
+CMD ["run", "https://deno.land/std/examples/welcome.ts"]
+#RUN deno run https://deno.land/std/examples/welcome.ts
