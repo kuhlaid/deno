@@ -1,4 +1,4 @@
-FROM rhscl/s2i-core-rhel7
+FROM registry.access.redhat.com/rhscl/s2i-core-rhel7:1
 
 ENV SUMMARY="DenoJs server" \
     DESCRIPTION="DenoJs (a better NodeJs) is a free and open-source \
