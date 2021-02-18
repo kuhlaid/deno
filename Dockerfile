@@ -1,4 +1,5 @@
-FROM registry.access.redhat.com/rhscl/s2i-core-rhel7:1
+FROM frolvlad/alpine-glibc:alpine-3.12_glibc-2.31
+#FROM registry.access.redhat.com/rhscl/s2i-core-rhel7:1
 
 ENV SUMMARY="DenoJs server" \
     DESCRIPTION="DenoJs (a better NodeJs) is a free and open-source \
@@ -19,6 +20,10 @@ LABEL summary="$SUMMARY" \
       version="0.1" \
       com.redhat.license_terms="https://www.redhat.com/en/about/red-hat-end-user-license-agreements#rhel" \
       maintainer="w. Patrick Gale <w.patrick.gale@unc.edu>"
+      
+# trying this with Alpine
+RUN mv /usr/glibc-compat/lib/ld-linux-x86-64.so.2 /usr/glibc-compat/lib/ld-linux-x86-64.so \
+  && ln -s ld-linux-x86-64.so /usr/glibc-compat/lib/ld-linux-x86-64.so.2
 
 ARG DENO_VERSION
 ENV DENO_VERSION ${DENO_VERSION:-v1.7.4}
