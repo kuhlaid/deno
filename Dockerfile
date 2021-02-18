@@ -21,7 +21,7 @@ ENV DENO_VERSION ${DENO_VERSION:-v1.7.4}
 
 RUN curl -fsSL https://deno.land/x/install/install.sh | sh
 
-ENV DENO_DIR /app/
+ENV DENO_DIR /opt/app-root/src/.deno/bin/deno
 
 # RUN addgroup -g 1993 -S deno \
 #  && adduser -u 1993 -S deno -G deno \
@@ -32,4 +32,4 @@ ENV DENO_DIR /app/
 # WORKDIR ${DENO_DIR}
 
 # ENTRYPOINT ["deno"]
-RUN deno run https://deno.land/std/examples/welcome.ts
+RUN ${DENO_DIR} && deno run https://deno.land/std/examples/welcome.ts
