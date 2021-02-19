@@ -1,4 +1,10 @@
-FROM registry.access.redhat.com/rhel8/s2i-core:1
+# docker login registry.redhat.io
+# RUN login registry.redhat.io
+# Username: {REGISTRY-SERVICE-ACCOUNT-USERNAME}
+# Password: {REGISTRY-SERVICE-ACCOUNT-PASSWORD}
+
+# assumes pulling from registry.redhat.io/
+FROM rhel8/s2i-core:1
 
 # ----------- test (this ran but added 500Mb to the size and 
 # RUN yum upgrade -y \
