@@ -3,6 +3,7 @@
 # Username: {REGISTRY-SERVICE-ACCOUNT-USERNAME}
 # Password: {REGISTRY-SERVICE-ACCOUNT-PASSWORD}
 
+RUN login registry.redhat.io --username XXXXXXXX --password XXXXXXXXXX
 # assumes pulling from registry.redhat.io/
 FROM rhel8/s2i-core:1
 
