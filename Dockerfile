@@ -29,7 +29,7 @@ RUN curl -fsSL https://deno.land/x/install/install.sh | sh
 #Manually add the directory to your $HOME/.bash_profile (or similar)
 Run export DENO_INSTALL="/.deno/bin/deno" && \
     export PATH="$DENO_INSTALL/bin:$PATH" && \
-    '/.deno/bin/deno/.deno/bin/deno --help'
+    '/.deno/bin/deno --help'
 
 # Since $HOME is set to /opt/app-root where deno is installed. The deno directory will be owned by root and can
 # cause actions that work on all of /opt/app-root to fail. So we need to fix
