@@ -18,7 +18,7 @@ LABEL summary="$SUMMARY" \
 
 ENV DENO_VERSION=1.7.4 \
     # Set paths to avoid hard-coding them in scripts.
-    APP_DATA=/opt/app-root/src \
+    #APP_DATA=/opt/app-root/src \
     PATH=/opt/app-root/src/.deno/bin/deno:$PATH
 
 RUN curl -fsSL https://deno.land/x/install/install.sh | sh
@@ -28,13 +28,12 @@ RUN curl -fsSL https://deno.land/x/install/install.sh | sh
 # the permissions on those too.
 RUN chown -R 1001:0 /opt/app-root && fix-permissions /opt/app-root
 
-ENV DENO_INSTALL=/.deno/bin/deno \
-    DENO_DIR=$APP_DATA$DENO_INSTALL 
+ENV DENO_DIR=/opt/app-root/src/.deno/bin/deno 
     
 # TESTING
 RUN echo "----- need to print deno directory contents ----"
-RUN ls -aR /opt/app-root/src/.deno/bin
-#RUN ls -a -d -ls /opt/app-root/src/.deno/bin/deno
+RUN ls -la /opt/app-root/src/.deno/bin
+#RUN ls -la /opt/app-root/src/.deno/bin/deno
 RUN echo "----- end printing deno directory contents ----"
 
 #TESTING
