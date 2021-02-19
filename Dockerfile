@@ -21,7 +21,7 @@ ENV DENO_VERSION=1.7.4 \
     APP_DATA=/opt/app-root/src \
     DENO_INSTALL=/.deno/bin/deno \
     DENO_DIR=$APP_DATA/$DENO_INSTALL \
-    PATH=/opt/app-root/src/.deno/bin/deno:$PATH
+    PATH=/opt/app-root/src/.deno/bin/deno/bin:$PATH
     # Incantations to enable Software Collections on `bash` and `sh -i`.
     #BASH_ENV="\${CONTAINER_SCRIPTS_PATH}/scl_enable" \
     #ENV="\${CONTAINER_SCRIPTS_PATH}/scl_enable" \
@@ -41,10 +41,10 @@ RUN printenv
 
 ENV DENO_DIR /app/
 
-RUN addgroup -g 1993 -S deno \
- && adduser -u 1993 -S deno -G deno \
- && mkdir ${DENO_DIR} \
- && chown deno:deno ${DENO_DIR}
+# RUN addgroup -g 1993 -S deno \
+#  && adduser -u 1993 -S deno -G deno \
+#  && mkdir ${DENO_DIR} \
+#  && chown deno:deno ${DENO_DIR}
 
 WORKDIR ${DENO_DIR}
 
