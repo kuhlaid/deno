@@ -18,8 +18,8 @@ LABEL summary="$SUMMARY" \
 
 ENV DENO_VERSION=1.7.4 \
     # Set paths to avoid hard-coding them in scripts.
-    APP_DATA=/opt/app-root/src \
-    HOME=/.deno/bin/deno \
+    APP_DATA=/opt/app-root/src
+    #HOME=/.deno/bin/deno \
     # Incantations to enable Software Collections on `bash` and `sh -i`.
     BASH_ENV="\${CONTAINER_SCRIPTS_PATH}/scl_enable" \
     ENV="\${CONTAINER_SCRIPTS_PATH}/scl_enable" \
@@ -27,13 +27,18 @@ ENV DENO_VERSION=1.7.4 \
 
 RUN curl -fsSL https://deno.land/x/install/install.sh | sh
 
+#Manually add the directory to your $HOME/.bash_profile (or similar)
+Run export DENO_INSTALL="/.deno/bin/deno" && \
+    export PATH="$DENO_INSTALL/bin:$PATH" && \
+    '/.deno/bin/deno/.deno/bin/deno --help'
+
 # Since $HOME is set to /opt/app-root where deno is installed. The deno directory will be owned by root and can
 # cause actions that work on all of /opt/app-root to fail. So we need to fix
 # the permissions on those too.
 RUN chown -R 1001:0 /opt/app-root && fix-permissions /opt/app-root
 
 # trying to add deno directory to the PATH
-ENV PATH="/opt/app-root/src/.deno/bin/deno:$PATH"
+#ENV PATH="/opt/app-root/src/.deno/bin/deno:$PATH"
 
 
 #TESTING
@@ -41,8 +46,7 @@ ENV PATH="/opt/app-root/src/.deno/bin/deno:$PATH"
 RUN pwd
 RUN printenv
 
-RUN : > /.deno/bin/deno && \
-    deno run https://deno.land/std/examples/welcome.ts
+CMD deno run https://deno.land/std/examples/welcome.ts
 
 # Run container by default as user with id 1001 (default)
 USER 1001
