@@ -31,6 +31,11 @@ RUN chown -R 1001:0 /opt/app-root && fix-permissions /opt/app-root
 ENV DENO_INSTALL=/.deno/bin/deno \
     DENO_DIR=$APP_DATA/$DENO_INSTALL 
     
+# TESTING
+RUN echo "----- need to print deno directory contents ----"
+RUN ls /opt/app-root/src/.deno/bin/deno
+RUN echo "----- end printing deno directory contents ----"
+
 #TESTING
 #print the working directory
 #RUN pwd
