@@ -18,8 +18,7 @@ LABEL summary="$SUMMARY" \
 
 ENV DENO_VERSION=1.7.4 \
     # Set paths to avoid hard-coding them in scripts.
-    APP_DATA=/opt/app-root/src
-    #HOME=/.deno/bin/deno \
+    APP_DATA=/opt/app-root/src \
     # Incantations to enable Software Collections on `bash` and `sh -i`.
     BASH_ENV="\${CONTAINER_SCRIPTS_PATH}/scl_enable" \
     ENV="\${CONTAINER_SCRIPTS_PATH}/scl_enable" \
