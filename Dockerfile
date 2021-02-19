@@ -1,5 +1,20 @@
 FROM registry.access.redhat.com/rhscl/s2i-core-rhel7:1
 
+# ----------- test
+RUN yum upgrade -y \
+    && yum install -y git gcc \
+    && yum clean packages
+
+RUN curl -sSf https://sh.rustup.rs | sh -s -- -y
+WORKDIR /tmp
+CMD git clone --recurse-submodules https://github.com/denoland/deno.git \
+    && cd deno \
+    && . ~/.cargo/env \
+    && cargo build --release \
+    && mv target/release/deno /output
+ # ----------- test
+ 
+ 
 ENV SUMMARY="DenoJs server" \
     DESCRIPTION="DenoJs (a better NodeJs) is a free and open-source \
     javascript runtime. This container image builds a DenoJs server."
