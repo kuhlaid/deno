@@ -35,8 +35,6 @@ RUN chown -R 1001:0 /opt/app-root && fix-permissions /opt/app-root
 # trying to add deno directory to the PATH
 ENV PATH="/opt/app-root/src/.deno/bin/deno:$PATH"
 
-# Run container by default as user with id 1001 (default)
-USER 1001
 
 #TESTING
 #print the working directory
@@ -46,6 +44,8 @@ RUN printenv
 RUN : > /.deno/bin/deno && \
     deno run https://deno.land/std/examples/welcome.ts
 
+# Run container by default as user with id 1001 (default)
+USER 1001
 # ENTRYPOINT ["deno"]
 # CMD ["run", "https://deno.land/std/examples/welcome.ts"]
 #RUN deno run https://deno.land/std/examples/welcome.ts
