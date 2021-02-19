@@ -20,8 +20,8 @@ ENV DENO_VERSION=1.7.4 \
     # Set paths to avoid hard-coding them in scripts.
     APP_DATA=/opt/app-root/src \
     DENO_INSTALL=/.deno/bin/deno \
-    DENO_DIR=$HOME/$DENO_INSTALL \
-    PATH=/.deno/bin/deno:$PATH
+    DENO_DIR=$APP_DATA/$DENO_INSTALL \
+    PATH=/opt/app-root/src/.deno/bin/deno:$PATH
     # Incantations to enable Software Collections on `bash` and `sh -i`.
     #BASH_ENV="\${CONTAINER_SCRIPTS_PATH}/scl_enable" \
     #ENV="\${CONTAINER_SCRIPTS_PATH}/scl_enable" \
@@ -39,11 +39,17 @@ RUN chown -R 1001:0 /opt/app-root && fix-permissions /opt/app-root
 #RUN pwd
 RUN printenv
 
-ENTRYPOINT ["/.deno/bin/deno"]
-CMD ["deno run https://deno.land/std/examples/welcome.ts"]
+ENV DENO_DIR /app/
+
+RUN addgroup -g 1993 -S deno \
+ && adduser -u 1993 -S deno -G deno \
+ && mkdir ${DENO_DIR} \
+ && chown deno:deno ${DENO_DIR}
+
+WORKDIR ${DENO_DIR}
+
+ENTRYPOINT ["deno"]
+CMD ["run", "https://deno.land/std/examples/welcome.ts"]
 
 # Run container by default as user with id 1001 (default)
 USER 1001
-# ENTRYPOINT ["deno"]
-# CMD ["run", "https://deno.land/std/examples/welcome.ts"]
-#RUN deno run https://deno.land/std/examples/welcome.ts
