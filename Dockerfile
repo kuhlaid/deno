@@ -21,11 +21,25 @@ ENV DENO_VERSION ${DENO_VERSION:-v1.7.4}
 
 RUN curl -fsSL https://deno.land/x/install/install.sh | sh
 
-# trying these export statements
-ENV DENO_INSTALL="/opt/app-root/src/.deno"
-ENV PATH="$DENO_INSTALL/bin:$PATH"
+# Since $HOME is set to /opt/app-root where deno is installed. The deno directory will be owned by root and can
+# cause actions that work on all of /opt/app-root to fail. So we need to fix
+# the permissions on those too.
+RUN chown -R 1001:0 /opt/app-root && fix-permissions /opt/app-root
 
+# trying to add deno directory to the PATH
+ENV PATH="/opt/app-root/src/.deno/bin/deno:$PATH"
+
+# Run container by default as user with id 1001 (default)
 USER 1001
+
+# Directory with the sources is set as the working directory.
+RUN mkdir /opt/app-root/src
+WORKDIR /opt/app-root/src
+
+#TESTING
+#print the working directory
+RUN pwd
+RUN printenv
 
 ENTRYPOINT ["deno"]
 CMD ["run", "https://deno.land/std/examples/welcome.ts"]
