@@ -1,17 +1,17 @@
-FROM registry.access.redhat.com/rhscl/s2i-core-rhel7:1
+FROM registry.access.redhat.com/rhscl/s2i-core-rhel8:1
 
-# ----------- test
-RUN yum upgrade -y \
-    && yum install -y git gcc \
-    && yum clean packages
+# ----------- test (this ran but added 500Mb to the size and 
+# RUN yum upgrade -y \
+#     && yum install -y git gcc \
+#     && yum clean packages
 
-RUN curl -sSf https://sh.rustup.rs | sh -s -- -y
-WORKDIR /tmp
-CMD git clone --recurse-submodules https://github.com/denoland/deno.git \
-    && cd deno \
-    && . ~/.cargo/env \
-    && cargo build --release \
-    && mv target/release/deno /output
+# RUN curl -sSf https://sh.rustup.rs | sh -s -- -y
+# WORKDIR /tmp
+# CMD git clone --recurse-submodules https://github.com/denoland/deno.git \
+#     && cd deno \
+#     && . ~/.cargo/env \
+#     && cargo build --release \
+#     && mv target/release/deno /output
  # ----------- test
  
  
