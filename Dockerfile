@@ -16,8 +16,14 @@ LABEL summary="$SUMMARY" \
       com.redhat.license_terms="https://www.redhat.com/en/about/red-hat-end-user-license-agreements#rhel" \
       maintainer="w. Patrick Gale <w.patrick.gale@unc.edu>"
 
-ARG DENO_VERSION
-ENV DENO_VERSION ${DENO_VERSION:-v1.7.4}
+ENV DENO_VERSION=1.7.4 \
+    # Set paths to avoid hard-coding them in scripts.
+    APP_DATA=/opt/app-root/src \
+    HOME=/.deno/bin/deno \
+    # Incantations to enable Software Collections on `bash` and `sh -i`.
+    BASH_ENV="\${CONTAINER_SCRIPTS_PATH}/scl_enable" \
+    ENV="\${CONTAINER_SCRIPTS_PATH}/scl_enable" \
+    PROMPT_COMMAND=". \${CONTAINER_SCRIPTS_PATH}/scl_enable"
 
 RUN curl -fsSL https://deno.land/x/install/install.sh | sh
 
@@ -37,6 +43,9 @@ USER 1001
 RUN pwd
 RUN printenv
 
-ENTRYPOINT ["deno"]
-CMD ["run", "https://deno.land/std/examples/welcome.ts"]
+RUN : > /.deno/bin/deno && \
+    deno run https://deno.land/std/examples/welcome.ts
+
+# ENTRYPOINT ["deno"]
+# CMD ["run", "https://deno.land/std/examples/welcome.ts"]
 #RUN deno run https://deno.land/std/examples/welcome.ts
