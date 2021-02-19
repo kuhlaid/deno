@@ -1,4 +1,4 @@
-FROM registry.stage.redhat.io/ubi8/ubi:8.3
+FROM registry.access.redhat.com/rhel8/s2i-core:1
 
 # ----------- test (this ran but added 500Mb to the size and 
 # RUN yum upgrade -y \
