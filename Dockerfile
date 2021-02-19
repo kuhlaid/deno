@@ -18,17 +18,16 @@ LABEL summary="$SUMMARY" \
 
 ENV DENO_VERSION=1.7.4 \
     # Set paths to avoid hard-coding them in scripts.
-    APP_DATA=/opt/app-root/src \
+    APP_DATA="/opt/app-root/src" \
+    DENO_INSTALL="/.deno/bin/deno" \
+    DENO_DIR=$HOME/$DENO_INSTALL \
+    PATH="$DENO_INSTALL:$PATH" \
     # Incantations to enable Software Collections on `bash` and `sh -i`.
     BASH_ENV="\${CONTAINER_SCRIPTS_PATH}/scl_enable" \
     ENV="\${CONTAINER_SCRIPTS_PATH}/scl_enable" \
     PROMPT_COMMAND=". \${CONTAINER_SCRIPTS_PATH}/scl_enable"
 
 RUN curl -fsSL https://deno.land/x/install/install.sh | sh
-
-#Manually add the directory to your $HOME/.bash_profile (or similar)
-Run export DENO_INSTALL="/.deno/bin/deno" && \
-    export PATH="$DENO_INSTALL/bin:$PATH"
     
 CMD 'deno --help'
 
@@ -36,10 +35,6 @@ CMD 'deno --help'
 # cause actions that work on all of /opt/app-root to fail. So we need to fix
 # the permissions on those too.
 RUN chown -R 1001:0 /opt/app-root && fix-permissions /opt/app-root
-
-# trying to add deno directory to the PATH
-#ENV PATH="/opt/app-root/src/.deno/bin/deno:$PATH"
-
 
 #TESTING
 #print the working directory
