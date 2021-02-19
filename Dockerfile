@@ -33,7 +33,7 @@ ENV DENO_INSTALL=/.deno/bin/deno \
     
 # TESTING
 RUN echo "----- need to print deno directory contents ----"
-RUN ls /opt/app-root/src/.deno/bin/deno
+RUN ls -a /opt/app-root/src
 RUN echo "----- end printing deno directory contents ----"
 
 #TESTING
