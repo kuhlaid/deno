@@ -22,8 +22,10 @@ ENV DENO_VERSION ${DENO_VERSION:-v1.7.4}
 RUN curl -fsSL https://deno.land/x/install/install.sh | sh
 
 # trying these export statements
-RUN export DENO_INSTALL="/opt/app-root/src/.deno"
-RUN export PATH="$DENO_INSTALL/bin:$PATH"
+ENV DENO_INSTALL="/opt/app-root/src/.deno"
+ENV PATH="$DENO_INSTALL/bin:$PATH"
+
+USER 1001
 
 ENTRYPOINT ["deno"]
 CMD ["run", "https://deno.land/std/examples/welcome.ts"]
