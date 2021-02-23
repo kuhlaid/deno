@@ -1,6 +1,7 @@
 FROM hayd/centos-deno:1.0.0
 
-EXPOSE 1993  # The port that your application listens to.
+# The port that your application listens to.
+EXPOSE 1993
 
 WORKDIR /app
 
