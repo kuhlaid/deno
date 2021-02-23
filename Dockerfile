@@ -20,8 +20,6 @@ RUN deno cache main.ts
 # These are passed as deno arguments when run with docker:
 CMD ["run", "--allow-net", "main.ts"]
 
-
-
 # # docker login registry.redhat.io
 # # RUN login registry.redhat.io
 # # Username: {REGISTRY-SERVICE-ACCOUNT-USERNAME}
