@@ -1,33 +1,23 @@
-FROM centos:8
+FROM hayd/centos-deno:1.0.0
 
-ENV DENO_VERSION=1.7.2
+EXPOSE 1993  # The port that your application listens to.
 
-RUN yum makecache \
- && yum install unzip -y \
- && curl -fsSL https://github.com/denoland/deno/releases/download/v${DENO_VERSION}/deno-x86_64-unknown-linux-gnu.zip \
-         --output deno.zip \
- && unzip deno.zip \
- && rm deno.zip \
- && chmod 755 deno \
- && mv deno /bin/deno \
- && yum remove unzip -y \
- && yum clean all \
- && rm -rf /var/cache/yum
+WORKDIR /app
 
-RUN groupadd -g 1993 deno \
- && adduser -u 1993 -g deno deno \
- && mkdir /deno-dir/ \
- && chown deno:deno /deno-dir/
+# Prefer not to run as root.
+USER deno
 
-ENV DENO_DIR /deno-dir/
-ENV DENO_INSTALL_ROOT /usr/local
+# Cache the dependencies as a layer (the following two steps are re-run only when deps.ts is modified).
+# Ideally fetch deps.ts will download and compile _all_ external files used in main.ts.
+COPY deps.ts .
+RUN deno fetch deps.ts
 
-COPY ./_entry.sh /usr/local/bin/docker-entrypoint.sh
-RUN chmod 755 /usr/local/bin/docker-entrypoint.sh
+# These steps will be re-run upon each file change in your working directory:
+ADD . .
+# Compile the main app so that it doesn't need to be compiled each startup/entry.
+RUN deno fetch main.ts
 
-
-ENTRYPOINT ["docker-entrypoint.sh"]
-CMD ["run", "https://deno.land/std/examples/welcome.ts"]
+CMD ["--allow-net", "main.ts"]
 
 
 
