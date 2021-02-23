@@ -1,4 +1,4 @@
-FROM hayd/deno:1.7.2
+FROM hayd/centos-deno:1.7.2
 
 EXPOSE 1993
 
