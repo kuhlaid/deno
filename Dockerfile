@@ -1,22 +1,21 @@
-FROM debian:stable-slim
+FROM centos:8
 
 ENV DENO_VERSION=1.7.2
-ARG DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get -qq update \
- && apt-get -qq install -y --no-install-recommends curl ca-certificates unzip \
+RUN yum makecache \
+ && yum install unzip -y \
  && curl -fsSL https://github.com/denoland/deno/releases/download/v${DENO_VERSION}/deno-x86_64-unknown-linux-gnu.zip \
          --output deno.zip \
  && unzip deno.zip \
  && rm deno.zip \
  && chmod 755 deno \
- && mv deno /usr/bin/deno \
- && apt-get -qq remove --purge -y curl ca-certificates unzip \
- && apt-get -y -qq autoremove \
- && apt-get -qq clean \
- && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+ && mv deno /bin/deno \
+ && yum remove unzip -y \
+ && yum clean all \
+ && rm -rf /var/cache/yum
 
-RUN useradd --uid 1993 --user-group deno \
+RUN groupadd -g 1993 deno \
+ && adduser -u 1993 -g deno deno \
  && mkdir /deno-dir/ \
  && chown deno:deno /deno-dir/
 
