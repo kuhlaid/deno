@@ -1,19 +1,7 @@
 # DenoJS in RHEL OpenShift
 
-Simple dockerfile to create an RHEL-based deno container. It's based on lsmoura/deno.
+The Dockerfile in this repo is used to create a CentOS image for use in RedHat OpenShift.
 
 ## Usage
 
-Just do a `docker-run --rm kuhlaid/openshift-deno` and you should get a welcome message! 
-
-If you want to run any js/ts file that resides on your current folder, you can do so like this: `docker run --rm -v $(pwd):/app kuhlaid/openshift-deno run myfile.ts`.
-
-Lastly, if you want to create your own self-container application that resides on the current folder, you can use this as a base image, and a Dockerfile like so:
-
-```
-FROM kuhlaid/openshift-deno:1.7.4
-
-COPY . ./
-
-CMD ["run", "./somefile.ts"]
-```
+I use Docker Hub to build and host the image (https://hub.docker.com/repository/docker/fowrfkmjnn9fro/openshift-deno). You can fork this repo and build you own version of the image on Docker Hub so OpenShift can access it. For initial testing you can simply log into OpenShift and use the Deploy Image option to add the 'fowrfkmjnn9fro/openshift-deno' image (since OpenShift knows to look in Docker Hub for this image). After you have the image deployed in OpenShift you will need to go into the new Service for this image and Create a Route so the Deno HelloWorld example can be accessed via an HTTP address.
