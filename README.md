@@ -1,4 +1,4 @@
-# DenoJS in RHEL OpenShift
+# DenoJS in RedHat OpenShift
 
 The Dockerfile in this repo is used to create a CentOS image for use in RedHat OpenShift.
 
